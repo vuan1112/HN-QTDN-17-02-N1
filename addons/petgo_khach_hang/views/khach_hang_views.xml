@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_petgo_khach_hang_form" model="ir.ui.view">
+        <field name="name">petgo.khach_hang.form</field>
+        <field name="model">petgo.khach_hang</field>
+        <field name="arch" type="xml">
+            <form string="Hồ sơ Khách hàng">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="ten_khach_hang" placeholder="Tên khách hàng..."/></h1>
+                    </div>
+                    <group>
+                        <group string="Thông tin chung">
+                            <field name="ma_khach_hang"/>
+                            <field name="email"/>
+                            <field name="so_dien_thoai"/>
+                            <field name="gioi_tinh"/>
+                            <field name="nhom_do_tuoi"/>
+                            <field name="dia_chi"/>
+                        </group>
+                        <group string="Phân loại &amp; Quản lý">
+                            <field name="loai_khach_hang"/>
+                            <field name="muc_thu_nhap"/>
+                            <field name="tong_so_don_hang"/>
+                            <field name="trang_thai"/>
+                            <field name="nhan_vien_cham_soc_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="🐶🐱 Danh sách Thú cưng">
+                            <field name="thu_cung_ids">
+                                <tree editable="bottom">
+                                    <field name="name" string="Tên Pet"/>
+                                    <field name="giong_loai_id" string="Giống loài"/>
+                                    <field name="can_nang"/>
+                                    <field name="tinh_trang_pet"/>
+                                    <field name="suc_khoe_pet"/>
+                                </tree>
+                            </field>
+                        </page>
+                        
+                        <page string="📋 Năng lực Nhân viên Phụ trách">
+                            <group>
+                                <field name="nhan_vien_cham_soc_id" options="{'no_create': True}"/>
+                                <field name="phong_ban_nv"/>
+                                <field name="chuc_vu_nv"/>
+                            </group>
+                            <group>
+                                <field name="chi_tiet_cong_tac_nv" readonly="1" force_save="1" style="color: #0056b3;"/>
+                                <field name="chi_tiet_chung_chi_nv" readonly="1" force_save="1" style="color: #28a745;"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_petgo_khach_hang_tree" model="ir.ui.view">
+        <field name="name">petgo.khach_hang.tree</field>
+        <field name="model">petgo.khach_hang</field>
+        <field name="arch" type="xml">
+            <tree string="Danh sách Khách hàng">
+                <field name="ma_khach_hang"/>
+                <field name="ten_khach_hang"/>
+                <field name="email"/>
+                <field name="so_dien_thoai"/>
+                <field name="dia_chi"/>
+                <field name="loai_khach_hang"/>
+                <field name="muc_thu_nhap"/>
+                <field name="trang_thai" widget="badge" decoration-info="trang_thai == 'moi'" decoration-success="trang_thai == 'dang_hoat_dong'"/>
+                <field name="tong_so_don_hang"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_petgo_khach_hang_search" model="ir.ui.view">
+        <field name="name">petgo.khach_hang.search</field>
+        <field name="model">petgo.khach_hang</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm Khách hàng">
+                <field name="ten_khach_hang"/>
+                <field name="ma_khach_hang"/>
+                <field name="so_dien_thoai"/>
+                
+                <searchpanel>
+                    <field name="loai_khach_hang" icon="fa-building" enable_counters="1"/>
+                    <field name="muc_thu_nhap" icon="fa-money" enable_counters="1"/>
+                    <field name="trang_thai" icon="fa-star" enable_counters="1"/>
+                    <field name="gioi_tinh" icon="fa-venus-mars" enable_counters="1"/>
+                    <field name="nhom_do_tuoi" icon="fa-calendar" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_petgo_thu_cung_tree" model="ir.ui.view">
+        <field name="name">petgo.thu_cung.tree</field>
+        <field name="model">petgo.thu_cung</field>
+        <field name="arch" type="xml">
+            <tree string="Tất cả Thú cưng">
+                <field name="name"/>
+                <field name="chu_pet_id"/>
+                <field name="giong_loai_id"/>
+                <field name="tinh_trang_pet"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_petgo_giong_loai_tree" model="ir.ui.view">
+        <field name="name">petgo.giong_loai.tree</field>
+        <field name="model">petgo.giong_loai</field>
+        <field name="arch" type="xml">
+            <tree string="Danh mục Giống loài" editable="top">
+                <field name="name"/>
+                <field name="loai"/>
+                <field name="ghi_chu"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_petgo_khach_hang" model="ir.actions.act_window">
+        <field name="name">Khách hàng</field>
+        <field name="res_model">petgo.khach_hang</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_petgo_thu_cung" model="ir.actions.act_window">
+        <field name="name">Sổ Thú cưng</field>
+        <field name="res_model">petgo.thu_cung</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_petgo_giong_loai" model="ir.actions.act_window">
+        <field name="name">Giống loài</field>
+        <field name="res_model">petgo.giong_loai</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_petgo_root" name="Khách hàng" sequence="10"/>
+    
+    <menuitem id="menu_top_quan_ly" name="Quản lý" parent="menu_petgo_root" sequence="10"/>
+    <menuitem id="menu_sub_khach_hang" name="Khách hàng" parent="menu_top_quan_ly" action="action_petgo_khach_hang" sequence="10"/>
+    <menuitem id="menu_sub_thu_cung" name="Sổ Thú cưng" parent="menu_top_quan_ly" action="action_petgo_thu_cung" sequence="20"/>
+
+    <menuitem id="menu_top_cau_hinh" name="Cấu hình" parent="menu_petgo_root" sequence="99"/>
+    <menuitem id="menu_sub_giong_loai" name="Danh mục Giống loài" parent="menu_top_cau_hinh" action="action_petgo_giong_loai" sequence="10"/>
+
+    <record id="view_petgo_feedback_tree" model="ir.ui.view">
+        <field name="name">petgo.feedback.tree</field>
+        <field name="model">petgo.feedback</field>
+        <field name="arch" type="xml">
+            <tree string="Danh sách Phản hồi">
+                <field name="ma_phan_hoi"/>
+                <field name="name"/>
+                <field name="khach_hang_id"/>
+                <field name="nhan_vien_id"/>
+                <field name="comment"/>
+                <field name="date"/>
+                <field name="rating"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_petgo_feedback_form" model="ir.ui.view">
+        <field name="name">petgo.feedback.form</field>
+        <field name="model">petgo.feedback</field>
+        <field name="arch" type="xml">
+            <form string="Chi tiết Phản hồi">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Ví dụ: Phản hồi thái độ nhân viên..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="ma_phan_hoi"/>
+                            <field name="khach_hang_id" options="{'no_create': True}"/>
+                            <field name="nhan_vien_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="rating"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Nội dung chi tiết">
+                            <field name="comment" placeholder="Khách hàng phàn nàn/khen ngợi về vấn đề gì..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_petgo_khach_hang" model="ir.actions.act_window">
+        <field name="name">Khách hàng</field>
+        <field name="res_model">petgo.khach_hang</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_petgo_feedback" model="ir.actions.act_window">
+        <field name="name">Phản hồi</field>
+        <field name="res_model">petgo.feedback</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_petgo_root" name="Khách hàng" sequence="10"/>
+    
+    <menuitem id="menu_top_quan_ly" name="Quản lý" parent="menu_petgo_root" sequence="10"/>
+    <menuitem id="menu_sub_khach_hang" name="Hồ sơ Khách hàng" parent="menu_top_quan_ly" action="action_petgo_khach_hang" sequence="10"/>
+
+    <menuitem id="menu_top_phan_hoi" name="Phản hồi" parent="menu_petgo_root" action="action_petgo_feedback" sequence="20"/>
+
+    <menuitem id="menu_top_cau_hinh" name="Cấu hình" parent="menu_petgo_root" sequence="30"/>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_petgo_cong_viec,petgo.cong_viec,model_petgo_cong_viec,base.group_user,1,1,1,1
+access_petgo_dich_vu,petgo.dich_vu,model_petgo_dich_vu,base.group_user,1,1,1,1
+access_petgo_cong_viec_line,petgo.cong_viec_line,model_petgo_cong_viec_line,base.group_user,1,1,1,1

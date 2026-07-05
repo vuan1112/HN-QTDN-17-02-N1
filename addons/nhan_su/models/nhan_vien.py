@@ -8,6 +8,7 @@ class NhanVien(models.Model):
     _description = 'Bảng chứa thông tin nhân viên'
     _rec_name = 'ho_va_ten'
     _order = 'ten asc, tuoi desc'
+    ma_nhan_vien = fields.Char(string="Mã nhân viên") # Hoặc kiểu dữ liệu tương ứng của bạn
 
     ma_dinh_danh = fields.Char("Mã định danh", required=True)
 
@@ -34,6 +35,18 @@ class NhanVien(models.Model):
                                         store=True
                                         )
     
+    def name_get(self):
+        result = []
+        for record in self:
+            # Nếu ma_nhan_vien có dữ liệu thì ghép thêm mã, nếu trống thì chỉ lấy họ tên
+            if record.ma_nhan_vien:
+                name = f"{record.ho_va_ten} [{record.ma_nhan_vien}]"
+            else:
+                name = record.ho_va_ten
+                
+            result.append((record.id, name))
+        return result
+        
     @api.depends("tuoi")
     def _compute_so_nguoi_bang_tuoi(self):
         for record in self:

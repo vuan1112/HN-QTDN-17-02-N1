@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_petgo_khach_hang,petgo.khach_hang,model_petgo_khach_hang,base.group_user,1,1,1,1
+access_petgo_giong_loai,petgo.giong_loai,model_petgo_giong_loai,base.group_user,1,1,1,1
+access_petgo_thu_cung,petgo.thu_cung,model_petgo_thu_cung,base.group_user,1,1,1,1
+access_petgo_feedback,access_petgo_feedback,model_petgo_feedback,base.group_user,1,1,1,1

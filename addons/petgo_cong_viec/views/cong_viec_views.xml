@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_petgo_cong_viec_form" model="ir.ui.view">
+        <field name="name">petgo.cong_viec.form</field>
+        <field name="model">petgo.cong_viec</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+    <button name="action_tao_noi_dung_ai" 
+            string="✨ Nhờ AI viết tin nhắn " 
+            type="object" 
+            class="btn-primary" 
+            icon="fa-magic"/>
+    
+    <field name="trang_thai" widget="statusbar" options="{'clickable': '1'}"/>
+</header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="tieu_de" placeholder="VD: Tắm cho Poodle nhà anh A..."/></h1>
+                    </div>
+                    <group>
+                        <group string="Liên kết Khách hàng">
+                            <field name="khach_hang_id" options="{'no_create': True}"/>
+                            <field name="thu_cung_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Liên kết Điều phối">
+                            <field name="nhan_vien_groomer_id" options="{'no_create': True}"/>
+                            <field name="kinh_nghiem_tho" readonly="1" force_save="1" style="color: #17a2b8; font-style: italic;"/>
+                            <field name="ngay_hen"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="💰 Chi tiết Dịch vụ (Bill)">
+                            <field name="dich_vu_line_ids">
+                                <tree editable="bottom">
+                                    <field name="dich_vu_id"/>
+                                    <field name="gia_tien" sum="Cộng"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="tong_tien" widget="monetary" style="font-size: 20px; font-weight: bold;"/>
+                            </group>
+                        </page>
+                        <page string="Ghi chú &amp; AI">
+    <group>
+        <field name="noi_dung_ai_soan" readonly="1" force_save="1" 
+       widget="text" style="min-height: 150px;"/>
+        <field name="mo_ta"/>
+    </group>
+</page>
+                        <page string="Đánh giá &amp; Lương thưởng">
+                            <group>
+                                <field name="danh_gia_sao" widget="radio"/>
+                                <field name="nhan_xet"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_petgo_dich_vu_tree" model="ir.ui.view">
+        <field name="name">petgo.dich_vu.tree</field>
+        <field name="model">petgo.dich_vu</field>
+        <field name="arch" type="xml">
+            <tree string="Bảng giá Dịch vụ Spa" editable="top">
+                <field name="name"/>
+                <field name="thoi_gian"/>
+                <field name="gia_tien" widget="monetary"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_petgo_cong_viec_kanban" model="ir.ui.view">
+        <field name="name">petgo.cong_viec.kanban</field>
+        <field name="model">petgo.cong_viec</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="trang_thai" class="o_kanban_small_column">
+                <field name="tieu_de"/>
+                <field name="khach_hang_id"/>
+                <field name="nhan_vien_groomer_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title" style="color: #007bff;"><field name="tieu_de"/></strong>
+                                <div><i class="fa fa-user"></i> <field name="khach_hang_id"/></div>
+                                <div><i class="fa fa-briefcase"></i> <field name="nhan_vien_groomer_id"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_petgo_thong_ke_tho_tree" model="ir.ui.view">
+        <field name="name">nhan_vien.thong_ke.tho.tree</field>
+        <field name="model">nhan_vien</field>
+        <field name="arch" type="xml">
+            <tree string="Thống kê Năng lực thợ" create="false" edit="false">
+                <field name="ho_va_ten" string="Họ và Tên Thợ"/> 
+                <field name="diem_danh_gia_tb" string="Đánh giá trung bình" widget="float"/>
+                <field name="tien_thuong_phat" string="Thưởng/Phạt phát sinh"/>
+                <field name="luong_sau_danh_gia" string="Lương thực nhận"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_petgo_cong_viec" model="ir.actions.act_window">
+        <field name="name">Điều phối Lịch hẹn</field>
+        <field name="res_model">petgo.cong_viec</field>
+        <field name="view_mode">kanban,form</field>
+    </record>
+
+    <record id="action_petgo_dich_vu" model="ir.actions.act_window">
+        <field name="name">Bảng giá Dịch vụ</field>
+        <field name="res_model">petgo.dich_vu</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <record id="action_petgo_thong_ke_tho" model="ir.actions.act_window">
+        <field name="name">Báo cáo Năng lực Thợ</field>
+        <field name="res_model">nhan_vien</field>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_petgo_thong_ke_tho_tree"/>
+    </record>
+
+    <menuitem id="menu_petgo_cong_viec_root" name="Công việc" sequence="15"/>
+    
+    <menuitem id="menu_top_lich_hen" name="Điều phối Spa" parent="menu_petgo_cong_viec_root" sequence="10"/>
+    <menuitem id="menu_sub_kanban" name="Bảng điều phối" parent="menu_top_lich_hen" action="action_petgo_cong_viec" sequence="10"/>
+
+    <menuitem id="menu_top_thong_ke" name="Báo cáo Năng lực Thợ" parent="menu_petgo_cong_viec_root" sequence="20"/>
+    <menuitem id="menu_sub_thong_ke" name="Xem Lương Thưởng" parent="menu_top_thong_ke" action="action_petgo_thong_ke_tho" sequence="10"/>
+
+    <menuitem id="menu_top_cau_hinh_cv" name="Cấu hình" parent="menu_petgo_cong_viec_root" sequence="99"/>
+    <menuitem id="menu_sub_dich_vu" name="Danh mục Dịch vụ" parent="menu_top_cau_hinh_cv" action="action_petgo_dich_vu" sequence="10"/>
+</odoo>
